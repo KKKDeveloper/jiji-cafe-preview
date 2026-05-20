@@ -14,7 +14,7 @@
 <meta property="og:image" content="jiji_cafe_assets/interior.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=block" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -398,8 +398,9 @@
   }
   var done=false;
   function go(){if(done)return;done=true;reveal()}
-  window.addEventListener('load',function(){setTimeout(go,900)});
-  setTimeout(go,2200); // safety fallback
+  function whenFonts(cb){if(document.fonts&&document.fonts.ready){document.fonts.ready.then(cb,cb)}else{cb()}}
+  window.addEventListener('load',function(){whenFonts(function(){setTimeout(go,300)})});
+  setTimeout(go,2600); // safety fallback (always clears even if fonts hang)
 
   var hd=document.querySelector('header');
   var prog=document.getElementById('progress');
