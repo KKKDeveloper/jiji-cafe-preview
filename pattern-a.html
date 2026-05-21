@@ -217,6 +217,9 @@
     .reveal-img.in{clip-path:inset(0 0 0 0)}
     .reveal-img img{transform:scale(1.12);transition:transform 1.6s var(--ease)}
     .reveal-img.in img{transform:scale(1)}
+    /* メニュー画像は clip-path リビール依存を外し、常に確実に表示する（カードのフェードインは維持） */
+    .menu-grid .reveal-img{clip-path:none}
+    .menu-grid .reveal-img img{transform:none}
     .hero.go .clip{transition:clip-path 1.3s var(--ease);clip-path:inset(0 0 0 0)}
     .hero.go img{animation:kenburns 18s var(--ease) .2s both}
     .hero-text .eyebrow,.hero-text h1,.hero-text p,.hero-text .btn,.vtext{opacity:0;transform:translateY(14px)}
@@ -336,8 +339,8 @@
     <div class="sec-head reveal"><span class="num">02</span><span class="ja">メニュー</span><span class="en">Menu</span></div>
     <div class="menu-grid">
       <div class="m-item reveal"><div class="frame reveal-img"><img src="jiji_cafe_assets/parfait_soft.jpg" alt="自慢の生ソフトクリームのパフェ"></div><span class="idx">01</span><h3>生ソフトのパフェ</h3><div class="price">季節限定あり</div><p>自慢のふんわり生ソフトクリーム。抹茶やチョコなど、季節で内容が変わります。</p></div>
-      <div class="m-item reveal" style="--d:.1s"><div class="frame reveal-img" style="--d:.1s"><img src="jiji_cafe_assets/parfait_ichigo.jpg" alt="いちごパフェ"></div><span class="idx">02</span><h3>いちごパフェ</h3><div class="price">¥1,300（ドリンクセット ¥1,640）</div><p>オリジナル生クリームと、たっぷりのいちご。季節のスペシャルパフェ。</p></div>
-      <div class="m-item reveal" style="--d:.2s"><div class="frame reveal-img" style="--d:.2s"><img src="jiji_cafe_assets/drinkmenu.jpg" alt="クリームフロート各種"></div><span class="idx">03</span><h3>クリームフロート</h3><div class="price">¥600〜</div><p>さくら・ばなな・ピスタチオ・トリプルチョコなど、季節のフレーバー。</p></div>
+      <div class="m-item reveal" style="--d:.1s"><div class="frame ph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l-3.4 11.2a1 1 0 0 1-1 .8h-2.2a1 1 0 0 1-1-.8L6.5 8.5z"/><path d="M7 8.5c0-2.2 2.2-3.8 5-3.8s5 1.6 5 3.8"/><circle cx="12" cy="4.4" r="1.1"/></svg><span class="pin">写真準備中</span></div><span class="idx">02</span><h3>いちごパフェ</h3><div class="price">¥1,300（ドリンクセット ¥1,640）</div><p>オリジナル生クリームと、たっぷりのいちご。季節のスペシャルパフェ。</p></div>
+      <div class="m-item reveal" style="--d:.2s"><div class="frame ph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9.5h10l-1.1 9.7a1.4 1.4 0 0 1-1.4 1.3H9.5a1.4 1.4 0 0 1-1.4-1.3L7 9.5z"/><path d="M7.5 9.5c.4-1.8 2.2-3 4.5-3s4.1 1.2 4.5 3"/><path d="M13.5 6.2l1.4-2.8"/></svg><span class="pin">写真準備中</span></div><span class="idx">03</span><h3>クリームフロート</h3><div class="price">¥600〜</div><p>さくら・ばなな・ピスタチオ・トリプルチョコなど、季節のフレーバー。</p></div>
       <div class="m-item reveal" style="--d:.3s"><div class="frame reveal-img" style="--d:.3s"><img src="jiji_cafe_assets/coffee_drip.jpg" alt="自家焙煎コーヒー"></div><span class="idx">04</span><h3>自家焙煎コーヒー</h3><div class="price">マンデリン／トラジャ／ブルンジ</div><p>豆の個性を選べる一杯。自家焙煎の香りをゆっくりと。</p></div>
       <div class="m-item reveal"><div class="frame reveal-img"><img src="jiji_cafe_assets/onigiri.jpg" alt="手づくりおむすび（明太子・うめマヨ）"></div><span class="idx">05</span><h3>手づくりおむすび</h3><div class="price">12:00〜／数量限定</div><p>明太子・うめマヨなど、その日仕込みの手づくり。お味噌汁付きです。</p></div>
       <div class="m-item reveal" style="--d:.1s"><div class="frame reveal-img" style="--d:.1s"><img src="jiji_cafe_assets/shake.jpg" alt="生いちごシェイク"></div><span class="idx">06</span><h3>シェイク</h3><div class="price">バニラ¥500／生いちご¥500</div><p>濃厚なミルクシェイク。季節のフルーツでもご用意します。</p></div>
@@ -440,6 +443,10 @@
     var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
     targets.forEach(function(el){io.observe(el)});
   }else{targets.forEach(function(el){el.classList.add('in')})}
+  // フェイルセーフ：読込完了から数秒後、まだ表示されていない画像は強制表示（白紙化防止）
+  window.addEventListener('load',function(){setTimeout(function(){
+    document.querySelectorAll('.reveal-img:not(.in)').forEach(function(el){el.classList.add('in')});
+  },3000)});
 
   var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var fine=window.matchMedia('(pointer:fine)').matches;
