@@ -39,10 +39,18 @@
     position:relative;
     max-width:640px;
     margin:0 auto;
-    padding:0 16% 60px;
     overflow-x:hidden;
   }
-  @media (max-width:480px){ .wrap{ padding:0 10% 60px; } }
+  /* percentage padding must live on a child of .wrap, not .wrap itself —
+     .wrap's own containing block is <body> (unconstrained width), so a
+     percentage padding placed directly on .wrap resolves against the full
+     viewport instead of .wrap's own 640px, crushing the content column. */
+  .content{
+    position:relative;
+    z-index:1;
+    padding:0 16% 60px;
+  }
+  @media (max-width:480px){ .content{ padding:0 10% 60px; } }
 
   /* ---------------- theatre curtain frame (runs the full page) ---------------- */
   .curtain{
@@ -468,6 +476,7 @@
   <div class="curtain left" aria-hidden="true"></div>
   <div class="curtain right" aria-hidden="true"></div>
 
+  <div class="content">
   <div class="hero-poster">
     <svg class="ghost" viewBox="0 0 150 150" aria-hidden="true">
       <ellipse cx="46" cy="128" rx="20" ry="16" fill="#E97A32"/>
@@ -594,6 +603,7 @@
   </div>
 
   <footer class="foot">JIJI CAFE MARCHÉ — ENTRY DESK</footer>
+  </div>
 </div>
 
 <script>
