@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>JIJI CAFE MARCHÉ｜参加申込み</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Chewy&family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+  :root{
+    --mint:         #A7DCDA;
+    --mint-deep:    #86C9C4;
+    --curtain-deep: #12205E;
+    --curtain:      #1D39A6;
+    --curtain-mid:  #2A46B8;
+    --curtain-light:#4562D6;
+    --teal-ink:     #1B474C;
+    --teal-soft:    #3E6D71;
+    --violet:       #5A3E96;
+    --pumpkin:      #E97A32;
+    --pumpkin-dk:   #C1601F;
+    --card-bg:      #FBFEFD;
+    --line:         rgba(27,71,76,0.22);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  ::selection{ background:var(--pumpkin); color:#fff; }
+
+  body{
+    background:var(--mint);
+    color:var(--teal-ink);
+    font-family:'Nunito', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:0 0 60px;
+  }
+
+  /* ---------------- poster hero ---------------- */
+  .hero-poster{
+    position:relative;
+    overflow:hidden;
+    padding:46px 14% 74px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    text-align:center;
+    animation: rise 700ms cubic-bezier(.2,.8,.2,1) both;
+  }
+  @media (prefers-reduced-motion: reduce){ .hero-poster{ animation:none; } }
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(10px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @media (max-width:480px){ .hero-poster{ padding:38px 9% 84px; min-height:460px; } }
+
+  .curtain{
+    position:absolute;
+    top:0; bottom:0;
+    width:27%;
+    background:
+      radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,0.22), transparent 60%),
+      repeating-linear-gradient(97deg,
+        var(--curtain-deep) 0 9px,
+        var(--curtain) 9px 18px,
+        var(--curtain-mid) 18px 24px,
+        var(--curtain-light) 24px 29px,
+        var(--curtain-mid) 29px 35px,
+        var(--curtain) 35px 44px,
+        var(--curtain-deep) 44px 54px);
+    z-index:1;
+  }
+  .curtain.left{
+    left:0;
+    clip-path:polygon(0% 0%,100% 0%,76% 9%,100% 18%,68% 29%,100% 40%,74% 52%,100% 63%,66% 75%,100% 86%,80% 95%,100% 100%,0% 100%);
+  }
+  .curtain.right{
+    right:0;
+    clip-path:polygon(100% 0%,0% 0%,24% 9%,0% 18%,32% 29%,0% 40%,26% 52%,0% 63%,34% 75%,0% 86%,20% 95%,0% 100%,100% 100%);
+  }
+
+  .hero-copy{ position:relative; z-index:2; }
+
+  .happy{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:clamp(1.6rem, 7vw, 2.2rem);
+    color:var(--violet);
+    margin:0 0 4px;
+    transform:rotate(-2deg);
+  }
+  .title-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:center;
+    gap:12px;
+  }
+  .jiji{
+    font-family:'Chewy', cursive;
+    font-size:clamp(2.5rem, 11.5vw, 4rem);
+    color:var(--teal-ink);
+    line-height:0.9;
+  }
+  .cafe{
+    font-family:'Chewy', cursive;
+    font-size:clamp(1.2rem, 5vw, 1.8rem);
+    color:var(--teal-ink);
+    position:relative;
+    top:-0.35em;
+  }
+  .marche{
+    display:block;
+    font-family:'Chewy', cursive;
+    font-size:clamp(2.8rem, 13vw, 4.6rem);
+    color:var(--teal-ink);
+    line-height:0.85;
+    margin-top:2px;
+  }
+  .feat{
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:clamp(0.92rem, 3.6vw, 1.08rem);
+    letter-spacing:0.01em;
+    color:var(--teal-ink);
+    margin:14px 0 0;
+  }
+  .date-script{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:clamp(1.7rem, 7.5vw, 2.3rem);
+    color:var(--violet);
+    margin:16px 0 0;
+    transform:rotate(-1.5deg);
+  }
+
+  .ghost{
+    position:absolute;
+    left:4%;
+    bottom:-6px;
+    width:clamp(84px, 22vw, 132px);
+    height:auto;
+    z-index:3;
+    filter:drop-shadow(0 6px 10px rgba(18,32,94,0.18));
+  }
+
+  /* ---------------- scallop seam ---------------- */
+  .scallop{
+    height:26px;
+    background-color:var(--card-bg);
+    background-image:radial-gradient(circle at center, var(--mint) 0 13px, transparent 13.5px);
+    background-size:34px 34px;
+    background-position:0 -17px;
+    background-repeat:repeat-x;
+    margin:0 20px;
+  }
+
+  .intro{
+    text-align:center;
+    padding:22px 24px 6px;
+  }
+  .intro p{
+    font-size:14px;
+    line-height:1.7;
+    color:var(--teal-soft);
+    max-width:40ch;
+    margin:0 auto 14px;
+  }
+  .form-label-chip{
+    display:inline-flex;
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--card-bg);
+    background:var(--teal-ink);
+    padding:6px 16px;
+    border-radius:999px;
+  }
+
+  /* ---------------- ticket card ---------------- */
+  .card-outer{ padding:0 20px; }
+  .card{
+    position:relative;
+    background:var(--card-bg);
+    color:var(--teal-ink);
+    border-radius:6px;
+    padding:34px 28px 30px;
+    margin-top:18px;
+    box-shadow:0 20px 40px -22px rgba(18,32,94,0.35);
+  }
+  .card::before,
+  .card::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    width:24px; height:24px;
+    background:var(--mint);
+    border-radius:50%;
+    transform:translateY(-50%);
+  }
+  .card::before{ left:-12px; }
+  .card::after{ right:-12px; }
+
+  .card-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:6px;
+  }
+  .card-head h2{
+    font-family:'Chewy', cursive;
+    font-weight:400;
+    font-size:24px;
+    margin:0;
+    color:var(--teal-ink);
+  }
+  .card-head span{
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:0.06em;
+    color:var(--teal-soft);
+    white-space:nowrap;
+  }
+  .card-sub{
+    font-size:13.5px;
+    color:var(--teal-soft);
+    margin:0 0 26px;
+    line-height:1.6;
+  }
+
+  fieldset{ border:0; padding:0; margin:0; }
+
+  .field{ margin-bottom:24px; }
+  .field label.flabel, .field legend.flabel{
+    display:block;
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:12px;
+    letter-spacing:0.04em;
+    color:var(--violet);
+    margin-bottom:10px;
+    padding:0;
+  }
+  .hint{
+    font-size:12.5px;
+    color:var(--teal-soft);
+    margin-top:7px;
+    line-height:1.5;
+  }
+
+  input[type=text], input[type=tel], select{
+    width:100%;
+    font-family:'Nunito', sans-serif;
+    font-size:16px;
+    color:var(--teal-ink);
+    background:transparent;
+    border:none;
+    border-bottom:2px solid var(--line);
+    padding:9px 2px;
+    border-radius:0;
+    appearance:none;
+    -webkit-appearance:none;
+    transition:border-color 160ms ease;
+  }
+  select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%231B474C' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 4px center;
+    padding-right:22px;
+  }
+  input[type=text]:focus, input[type=tel]:focus, select:focus{
+    outline:none;
+    border-bottom-color:var(--pumpkin);
+  }
+  input::placeholder{ color:var(--teal-soft); opacity:0.6; }
+
+  /* count stepper */
+  .stepper{
+    display:inline-flex;
+    align-items:center;
+    border:2px solid var(--curtain);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .stepper button{
+    width:42px; height:42px;
+    border:none;
+    background:var(--card-bg);
+    color:var(--curtain);
+    font-size:19px;
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:background 140ms ease, color 140ms ease;
+  }
+  .stepper button:hover{ background:var(--curtain); color:#fff; }
+  .stepper button:active{ background:var(--curtain-deep); }
+  .stepper input{
+    width:54px;
+    text-align:center;
+    border:none;
+    background:transparent;
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:19px;
+    font-variant-numeric:tabular-nums;
+    color:var(--teal-ink);
+    padding:0;
+  }
+  .stepper-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .stepper-unit{ font-size:13px; color:var(--teal-soft); }
+
+  /* gender chips */
+  .chip-row{ display:flex; gap:10px; flex-wrap:wrap; }
+  .chip{ position:relative; }
+  .chip input{ position:absolute; opacity:0; width:1px; height:1px; }
+  .chip label{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:11px 20px;
+    border:2px solid var(--curtain);
+    border-radius:999px;
+    font-family:'Nunito', sans-serif;
+    font-size:15px;
+    font-weight:700;
+    color:var(--curtain);
+    cursor:pointer;
+    transition:background 140ms ease, color 140ms ease;
+    user-select:none;
+  }
+  .chip label::before{
+    content:"";
+    width:9px; height:9px;
+    border-radius:50%;
+    border:2px solid var(--curtain);
+    display:inline-block;
+    flex:none;
+  }
+  .chip input:checked + label{
+    background:var(--curtain);
+    border-color:var(--curtain);
+    color:#fff;
+  }
+  .chip input:checked + label::before{ background:#fff; border-color:#fff; }
+  .chip input:focus-visible + label{ outline:2px solid var(--violet); outline-offset:2px; }
+
+  .divider{
+    border:0;
+    height:0;
+    border-top:2px dashed var(--line);
+    margin:30px -4px 26px;
+  }
+
+  .submit-btn{
+    width:100%;
+    margin-top:8px;
+    background:var(--pumpkin);
+    color:var(--curtain-deep);
+    border:none;
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:16.5px;
+    padding:16px 20px;
+    cursor:pointer;
+    clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px);
+    transition:background 140ms ease, color 140ms ease, transform 100ms ease;
+  }
+  .submit-btn:hover{ background:var(--pumpkin-dk); color:#fff; }
+  .submit-btn:active{ transform:scale(0.99); }
+
+  .error-banner{
+    background:#FBE3D3;
+    border:1px solid var(--pumpkin-dk);
+    color:var(--pumpkin-dk);
+    font-size:13.5px;
+    padding:11px 14px;
+    border-radius:4px;
+    margin-bottom:20px;
+    line-height:1.5;
+  }
+
+  /* success ticket */
+  .success{ text-align:left; }
+  .success .stub-no{
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--violet);
+    margin-bottom:4px;
+  }
+  .success .stub-no b{ color:var(--teal-ink); font-size:15px; }
+  .success h2{
+    font-family:'Chewy', cursive;
+    font-weight:400;
+    font-size:26px;
+    margin:6px 0 14px;
+    color:var(--teal-ink);
+  }
+  .success p{
+    font-size:14.5px;
+    line-height:1.75;
+    color:var(--teal-soft);
+    margin:0 0 8px;
+  }
+  .success .resend{
+    display:inline-block;
+    margin-top:6px;
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:13px;
+    color:var(--curtain);
+    text-decoration:underline;
+    cursor:pointer;
+    background:none;
+    border:none;
+    padding:0;
+  }
+  .success .recap{
+    margin-top:22px;
+    padding-top:20px;
+    border-top:2px dashed var(--line);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px 18px;
+  }
+  .success .recap span.k{
+    display:block;
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    letter-spacing:0.04em;
+    color:var(--violet);
+    margin-bottom:4px;
+    font-size:10.5px;
+  }
+  .success .recap span.v{
+    font-size:15px;
+    font-weight:700;
+    color:var(--teal-ink);
+  }
+
+  footer.foot{
+    text-align:center;
+    margin-top:36px;
+    font-size:12px;
+    color:var(--teal-soft);
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    letter-spacing:0.04em;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero-poster">
+    <div class="curtain left" aria-hidden="true"></div>
+    <div class="curtain right" aria-hidden="true"></div>
+
+    <svg class="ghost" viewBox="0 0 150 150" aria-hidden="true">
+      <ellipse cx="46" cy="128" rx="20" ry="16" fill="#E97A32"/>
+      <path d="M46 112 q0 -10 8 -10 q8 0 8 10" stroke="#1B474C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M28 62 C28 30 45 10 68 10 C91 10 108 30 108 62 L108 108
+               C102 101 96 115 90 108 C84 101 78 115 72 108
+               C66 101 60 115 54 108 C48 101 42 115 36 108
+               C30 101 28 108 28 108 Z"
+            fill="#FFFFFF" stroke="#20232B" stroke-width="2.5" stroke-linejoin="round"/>
+      <ellipse cx="55" cy="58" rx="4.2" ry="6" fill="#20232B"/>
+      <ellipse cx="83" cy="58" rx="4.2" ry="6" fill="#20232B"/>
+      <path d="M62 74 q6 6 12 0" stroke="#20232B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <g transform="rotate(-14 68 10)">
+        <path d="M60 12 L68 -16 L76 12 Z" fill="#1D39A6" stroke="#12205E" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M63 4 L73 -2" stroke="#FBFEFD" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="68" cy="-16" r="3.4" fill="#FBFEFD"/>
+      </g>
+      <path d="M40 -2 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 Z" fill="#5A3E96" transform="translate(4,4)"/>
+    </svg>
+
+    <div class="hero-copy">
+      <p class="happy">Happy Halloween</p>
+      <div class="title-row">
+        <span class="jiji">JIJI</span><span class="cafe">CAFE</span>
+      </div>
+      <span class="marche">MARCHÉ</span>
+      <p class="feat">feat. FUREAU JIKAN wo TOTTOCO</p>
+      <p class="date-script">10.24.Sat.</p>
+    </div>
+  </div>
+
+  <div class="scallop" role="presentation"></div>
+
+  <div class="intro">
+    <p>ハロウィンマルシェの参加申込みです。下の項目にご記入のうえ送信すると、お使いのメールアプリが開きます。そのまま送信してください。</p>
+    <span class="form-label-chip">参加申込みフォーム</span>
+  </div>
+
+  <div class="card-outer">
+    <div class="card">
+
+      <div id="form-view">
+        <div class="card-head">
+          <h2>Entry Ticket</h2>
+          <span>参加申込み</span>
+        </div>
+        <p class="card-sub">ご記入は保護者の方がお願いします。すべての項目が必須です。</p>
+
+        <div id="error-banner" class="error-banner" hidden role="alert"></div>
+
+        <form id="entry-form" novalidate>
+
+          <div class="field">
+            <label class="flabel" for="count-input">参加人数</label>
+            <div class="stepper-row">
+              <div class="stepper">
+                <button type="button" id="count-dec" aria-label="人数を減らす">−</button>
+                <input type="text" id="count-input" name="count" value="1" inputmode="numeric" aria-label="参加人数" readonly>
+                <button type="button" id="count-inc" aria-label="人数を増やす">＋</button>
+              </div>
+              <span class="stepper-unit">名（保護者・お子様の合計人数）</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <fieldset>
+              <legend class="flabel">お子様の性別</legend>
+              <div class="chip-row">
+                <div class="chip">
+                  <input type="radio" name="gender" id="gender-boy" value="男の子" required>
+                  <label for="gender-boy">男の子</label>
+                </div>
+                <div class="chip">
+                  <input type="radio" name="gender" id="gender-girl" value="女の子" required>
+                  <label for="gender-girl">女の子</label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="field">
+            <label class="flabel" for="reason-select">参加のきっかけ</label>
+            <select id="reason-select" name="reason" required>
+              <option value="" disabled selected>選択してください</option>
+              <option>Instagram・SNSで見て</option>
+              <option>チラシ・ポスターを見て</option>
+              <option>お友達・知人に誘われて</option>
+              <option>過去にも参加したことがある</option>
+              <option value="その他">その他</option>
+            </select>
+            <div id="reason-other-wrap" hidden style="margin-top:12px;">
+              <input type="text" id="reason-other" placeholder="きっかけを入力してください">
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="field">
+            <label class="flabel" for="guardian-name">保護者のお名前</label>
+            <input type="text" id="guardian-name" name="guardianName" placeholder="山田 花子" autocomplete="name" required>
+          </div>
+
+          <div class="field" style="margin-bottom:8px;">
+            <label class="flabel" for="phone">電話番号</label>
+            <input type="tel" id="phone" name="phone" placeholder="090-1234-5678" autocomplete="tel" required>
+            <p class="hint">当日ご連絡が必要になった場合のみ使用します。</p>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn">この内容で申し込む</button>
+        </form>
+      </div>
+
+      <div id="success-view" class="success" hidden>
+        <p class="stub-no">整理番号 <b id="ticket-no">—</b></p>
+        <h2>メール送信画面を開きました</h2>
+        <p>お使いのメールアプリで内容をご確認のうえ、そのまま送信してください。メールが届き次第、受付完了となります。</p>
+        <p>メールアプリが開かない場合は
+          <button type="button" class="resend" id="resend-btn">こちらをタップ</button>
+        してください。</p>
+        <div class="recap">
+          <div><span class="k">保護者名</span><span class="v" id="ticket-name">—</span></div>
+          <div><span class="k">参加人数</span><span class="v" id="ticket-count">—</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="foot">JIJI CAFE MARCHÉ — ENTRY DESK</footer>
+</div>
+
+<script>
+(function(){
+  var countInput = document.getElementById('count-input');
+  var countDec = document.getElementById('count-dec');
+  var countInc = document.getElementById('count-inc');
+  var reasonSelect = document.getElementById('reason-select');
+  var reasonOtherWrap = document.getElementById('reason-other-wrap');
+  var reasonOther = document.getElementById('reason-other');
+  var form = document.getElementById('entry-form');
+  var errorBanner = document.getElementById('error-banner');
+  var formView = document.getElementById('form-view');
+  var successView = document.getElementById('success-view');
+  var resendBtn = document.getElementById('resend-btn');
+
+  var TO_ADDRESS = 'info@aim-llc.jp';
+  var lastMailto = '';
+
+  countDec.addEventListener('click', function(){
+    var v = Math.max(1, (parseInt(countInput.value, 10) || 1) - 1);
+    countInput.value = v;
+  });
+  countInc.addEventListener('click', function(){
+    var v = Math.min(10, (parseInt(countInput.value, 10) || 1) + 1);
+    countInput.value = v;
+  });
+
+  reasonSelect.addEventListener('change', function(){
+    var isOther = reasonSelect.value === 'その他';
+    reasonOtherWrap.hidden = !isOther;
+    if (!isOther) reasonOther.value = '';
+  });
+
+  function clearError(){
+    errorBanner.hidden = true;
+    errorBanner.textContent = '';
+  }
+
+  function makeRefCode(){
+    return Date.now().toString(36).slice(-6).toUpperCase();
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    clearError();
+    if (!form.reportValidity()) return;
+
+    var genderInput = form.querySelector('input[name="gender"]:checked');
+    var reasonVal = reasonSelect.value;
+    if (reasonVal === 'その他'){
+      reasonVal = (reasonOther.value || '').trim() || 'その他';
+    }
+
+    var data = {
+      participantCount: parseInt(countInput.value, 10) || 1,
+      gender: genderInput ? genderInput.value : '',
+      reason: reasonVal,
+      guardianName: document.getElementById('guardian-name').value.trim(),
+      phone: document.getElementById('phone').value.trim()
+    };
+
+    var refCode = makeRefCode();
+    var subject = '【JIJI CAFE MARCHÉ】参加申込み ' + data.guardianName;
+    var bodyLines = [
+      '■ JIJI CAFE MARCHÉ ハロウィン参加申込み',
+      '',
+      '参加人数：' + data.participantCount + '名',
+      'お子様の性別：' + data.gender,
+      '参加のきっかけ：' + data.reason,
+      '保護者のお名前：' + data.guardianName,
+      '電話番号：' + data.phone,
+      '',
+      '整理番号：' + refCode,
+      '送信日時：' + new Date().toLocaleString('ja-JP')
+    ];
+    var body = bodyLines.join('\n');
+    lastMailto = 'mailto:' + TO_ADDRESS + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+
+    document.getElementById('ticket-no').textContent = refCode;
+    document.getElementById('ticket-name').textContent = data.guardianName;
+    document.getElementById('ticket-count').textContent = data.participantCount + ' 名';
+    formView.hidden = true;
+    successView.hidden = false;
+
+    window.location.href = lastMailto;
+  });
+
+  resendBtn.addEventListener('click', function(){
+    if (lastMailto) window.location.href = lastMailto;
+  });
+})();
+</script>
+</body>
+</html>
