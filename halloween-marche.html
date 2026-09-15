@@ -421,19 +421,6 @@
     color:var(--teal-soft);
     margin:0 0 8px;
   }
-  .success .resend{
-    display:inline-block;
-    margin-top:6px;
-    font-family:'Nunito', sans-serif;
-    font-weight:800;
-    font-size:13px;
-    color:var(--curtain);
-    text-decoration:underline;
-    cursor:pointer;
-    background:none;
-    border:none;
-    padding:0;
-  }
   .success .recap{
     margin-top:22px;
     padding-top:20px;
@@ -511,7 +498,7 @@
   <div class="scallop" role="presentation"></div>
 
   <div class="intro">
-    <p>ハロウィンマルシェの参加申込みです。下の項目にご記入のうえ送信すると、お使いのメールアプリが開きます。そのまま送信してください。</p>
+    <p>ハロウィンマルシェの参加申込みです。下の項目にご記入のうえ送信してください。</p>
     <span class="form-label-chip">参加申込みフォーム</span>
   </div>
 
@@ -588,11 +575,8 @@
 
       <div id="success-view" class="success" hidden>
         <p class="stub-no">整理番号 <b id="ticket-no">—</b></p>
-        <h2>メール送信画面を開きました</h2>
-        <p>お使いのメールアプリで内容をご確認のうえ、そのまま送信してください。メールが届き次第、受付完了となります。</p>
-        <p>メールアプリが開かない場合は
-          <button type="button" class="resend" id="resend-btn">こちらをタップ</button>
-        してください。</p>
+        <h2>申込みを受け付けました</h2>
+        <p>ご記入ありがとうございます。当日のご参加をお待ちしております。</p>
         <div class="recap">
           <div><span class="k">保護者名</span><span class="v" id="ticket-name">—</span></div>
           <div><span class="k">お子様の人数</span><span class="v" id="ticket-count">—</span></div>
@@ -622,10 +606,9 @@
   var errorBanner = document.getElementById('error-banner');
   var formView = document.getElementById('form-view');
   var successView = document.getElementById('success-view');
-  var resendBtn = document.getElementById('resend-btn');
+  var submitBtn = document.getElementById('submit-btn');
 
-  var TO_ADDRESS = 'info@aim-llc.jp';
-  var lastMailto = '';
+  var API_URL = 'https://210.131.215.183.nip.io/jiji-halloween/submit';
 
   function updateTotal(){
     var total = (parseInt(boyCount.value, 10) || 0) + (parseInt(girlCount.value, 10) || 0);
@@ -651,9 +634,9 @@
     errorBanner.hidden = true;
     errorBanner.textContent = '';
   }
-
-  function makeRefCode(){
-    return Date.now().toString(36).slice(-6).toUpperCase();
+  function showError(msg){
+    errorBanner.textContent = msg;
+    errorBanner.hidden = false;
   }
 
   form.addEventListener('submit', function(e){
@@ -665,8 +648,7 @@
     var girls = parseInt(girlCount.value, 10) || 0;
     var total = boys + girls;
     if (total < 1){
-      errorBanner.textContent = 'お子様の人数（男の子・女の子いずれか）を1名以上入力してください。';
-      errorBanner.hidden = false;
+      showError('お子様の人数（男の子・女の子いずれか）を1名以上入力してください。');
       return;
     }
 
@@ -678,41 +660,37 @@
     var data = {
       boyCount: boys,
       girlCount: girls,
-      totalCount: total,
       reason: reasonVal,
       guardianName: document.getElementById('guardian-name').value.trim(),
       phone: document.getElementById('phone').value.trim()
     };
 
-    var refCode = makeRefCode();
-    var subject = '【JIJI CAFE MARCHÉ】参加申込み ' + data.guardianName;
-    var bodyLines = [
-      '■ JIJI CAFE MARCHÉ ハロウィン参加申込み',
-      '',
-      '男の子：' + data.boyCount + '名',
-      '女の子：' + data.girlCount + '名',
-      'お子様の合計：' + data.totalCount + '名',
-      '参加のきっかけ：' + data.reason,
-      '保護者のお名前：' + data.guardianName,
-      '電話番号：' + data.phone,
-      '',
-      '整理番号：' + refCode,
-      '送信日時：' + new Date().toLocaleString('ja-JP')
-    ];
-    var body = bodyLines.join('\n');
-    lastMailto = 'mailto:' + TO_ADDRESS + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中…';
 
-    document.getElementById('ticket-no').textContent = refCode;
-    document.getElementById('ticket-name').textContent = data.guardianName;
-    document.getElementById('ticket-count').textContent = data.totalCount + ' 名（男の子' + data.boyCount + '・女の子' + data.girlCount + '）';
-    formView.hidden = true;
-    successView.hidden = false;
-
-    window.location.href = lastMailto;
-  });
-
-  resendBtn.addEventListener('click', function(){
-    if (lastMailto) window.location.href = lastMailto;
+    fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(function(res){
+        return res.json().then(function(json){
+          if (!res.ok || !json.ok) throw new Error(json.error || 'request_failed');
+          return json;
+        });
+      })
+      .then(function(json){
+        document.getElementById('ticket-no').textContent = json.refCode || '—';
+        document.getElementById('ticket-name').textContent = data.guardianName;
+        document.getElementById('ticket-count').textContent = total + ' 名（男の子' + boys + '・女の子' + girls + '）';
+        formView.hidden = true;
+        successView.hidden = false;
+      })
+      .catch(function(){
+        showError('送信に失敗しました。通信環境をご確認のうえ、もう一度お試しください。');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'この内容で申し込む';
+      });
   });
 })();
 </script>
