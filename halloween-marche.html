@@ -36,36 +36,21 @@
   }
 
   .wrap{
+    position:relative;
     max-width:640px;
     margin:0 auto;
-    padding:0 0 60px;
+    padding:0 16% 60px;
+    overflow-x:hidden;
   }
+  @media (max-width:480px){ .wrap{ padding:0 10% 60px; } }
 
-  /* ---------------- poster hero ---------------- */
-  .hero-poster{
-    position:relative;
-    overflow:hidden;
-    padding:46px 14% 74px;
-    min-height:520px;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    text-align:center;
-    animation: rise 700ms cubic-bezier(.2,.8,.2,1) both;
-  }
-  @media (prefers-reduced-motion: reduce){ .hero-poster{ animation:none; } }
-  @keyframes rise{
-    from{ opacity:0; transform:translateY(10px); }
-    to{ opacity:1; transform:translateY(0); }
-  }
-  @media (max-width:480px){ .hero-poster{ padding:38px 9% 84px; min-height:460px; } }
-
+  /* ---------------- theatre curtain frame (runs the full page) ---------------- */
   .curtain{
     position:absolute;
     top:0; bottom:0;
-    width:27%;
+    width:16%;
     background:
-      radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,0.22), transparent 60%),
+      radial-gradient(140% 30% at 50% 0%, rgba(255,255,255,0.24), transparent 55%),
       repeating-linear-gradient(97deg,
         var(--curtain-deep) 0 9px,
         var(--curtain) 9px 18px,
@@ -74,16 +59,32 @@
         var(--curtain-mid) 29px 35px,
         var(--curtain) 35px 44px,
         var(--curtain-deep) 44px 54px);
-    z-index:1;
+    z-index:0;
   }
+  @media (max-width:480px){ .curtain{ width:10%; } }
   .curtain.left{
     left:0;
-    clip-path:polygon(0% 0%,100% 0%,76% 9%,100% 18%,68% 29%,100% 40%,74% 52%,100% 63%,66% 75%,100% 86%,80% 95%,100% 100%,0% 100%);
+    clip-path:polygon(0% 0%,100% 0%,80% 5%,100% 9%,74% 15%,100% 21%,80% 27%,100% 33%,72% 39%,100% 45%,80% 51%,100% 57%,74% 63%,100% 69%,80% 75%,100% 81%,72% 87%,100% 93%,86% 98%,100% 100%,0% 100%);
   }
   .curtain.right{
     right:0;
-    clip-path:polygon(100% 0%,0% 0%,24% 9%,0% 18%,32% 29%,0% 40%,26% 52%,0% 63%,34% 75%,0% 86%,20% 95%,0% 100%,100% 100%);
+    clip-path:polygon(100% 0%,0% 0%,20% 5%,0% 9%,26% 15%,0% 21%,20% 27%,0% 33%,28% 39%,0% 45%,20% 51%,0% 57%,26% 63%,0% 69%,20% 75%,0% 81%,28% 87%,0% 93%,14% 98%,0% 100%,100% 100%);
   }
+
+  /* ---------------- poster hero ---------------- */
+  .hero-poster{
+    position:relative;
+    z-index:1;
+    padding:46px 0 40px;
+    text-align:center;
+    animation: rise 700ms cubic-bezier(.2,.8,.2,1) both;
+  }
+  @media (prefers-reduced-motion: reduce){ .hero-poster{ animation:none; } }
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(10px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @media (max-width:480px){ .hero-poster{ padding:36px 0 30px; } }
 
   .hero-copy{ position:relative; z-index:2; }
 
@@ -141,28 +142,33 @@
 
   .ghost{
     position:absolute;
-    left:4%;
-    bottom:-6px;
-    width:clamp(84px, 22vw, 132px);
+    left:-32px;
+    bottom:-10px;
+    width:clamp(76px, 20vw, 120px);
     height:auto;
     z-index:3;
     filter:drop-shadow(0 6px 10px rgba(18,32,94,0.18));
   }
+  @media (max-width:480px){ .ghost{ left:-18px; width:clamp(62px, 18vw, 92px); } }
 
   /* ---------------- scallop seam ---------------- */
   .scallop{
+    position:relative;
+    z-index:1;
     height:26px;
     background-color:var(--card-bg);
     background-image:radial-gradient(circle at center, var(--mint) 0 13px, transparent 13.5px);
     background-size:34px 34px;
     background-position:0 -17px;
     background-repeat:repeat-x;
-    margin:0 20px;
+    margin:0;
   }
 
   .intro{
+    position:relative;
+    z-index:1;
     text-align:center;
-    padding:22px 24px 6px;
+    padding:22px 0 6px;
   }
   .intro p{
     font-size:14px;
@@ -184,7 +190,7 @@
   }
 
   /* ---------------- ticket card ---------------- */
-  .card-outer{ padding:0 20px; }
+  .card-outer{ position:relative; z-index:1; padding:0; }
   .card{
     position:relative;
     background:var(--card-bg);
@@ -319,40 +325,34 @@
   .stepper-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
   .stepper-unit{ font-size:13px; color:var(--teal-soft); }
 
-  /* gender chips */
-  .chip-row{ display:flex; gap:10px; flex-wrap:wrap; }
-  .chip{ position:relative; }
-  .chip input{ position:absolute; opacity:0; width:1px; height:1px; }
-  .chip label{
+  /* per-gender child counters */
+  .gender-counts{
     display:flex;
-    align-items:center;
-    gap:9px;
-    padding:11px 20px;
-    border:2px solid var(--curtain);
-    border-radius:999px;
+    gap:22px;
+    flex-wrap:wrap;
+  }
+  .count-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .count-label{
     font-family:'Nunito', sans-serif;
-    font-size:15px;
     font-weight:700;
+    font-size:13.5px;
     color:var(--curtain);
-    cursor:pointer;
-    transition:background 140ms ease, color 140ms ease;
-    user-select:none;
   }
-  .chip label::before{
-    content:"";
-    width:9px; height:9px;
-    border-radius:50%;
-    border:2px solid var(--curtain);
-    display:inline-block;
-    flex:none;
+  .count-total{
+    font-size:13px;
+    color:var(--teal-soft);
+    margin-top:12px;
   }
-  .chip input:checked + label{
-    background:var(--curtain);
-    border-color:var(--curtain);
-    color:#fff;
+  .count-total b{
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    color:var(--teal-ink);
+    font-size:15px;
   }
-  .chip input:checked + label::before{ background:#fff; border-color:#fff; }
-  .chip input:focus-visible + label{ outline:2px solid var(--violet); outline-offset:2px; }
 
   .divider{
     border:0;
@@ -450,6 +450,8 @@
   }
 
   footer.foot{
+    position:relative;
+    z-index:1;
     text-align:center;
     margin-top:36px;
     font-size:12px;
@@ -463,10 +465,10 @@
 <body>
 <div class="wrap">
 
-  <div class="hero-poster">
-    <div class="curtain left" aria-hidden="true"></div>
-    <div class="curtain right" aria-hidden="true"></div>
+  <div class="curtain left" aria-hidden="true"></div>
+  <div class="curtain right" aria-hidden="true"></div>
 
+  <div class="hero-poster">
     <svg class="ghost" viewBox="0 0 150 150" aria-hidden="true">
       <ellipse cx="46" cy="128" rx="20" ry="16" fill="#E97A32"/>
       <path d="M46 112 q0 -10 8 -10 q8 0 8 10" stroke="#1B474C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
@@ -519,30 +521,27 @@
         <form id="entry-form" novalidate>
 
           <div class="field">
-            <label class="flabel" for="count-input">参加人数</label>
-            <div class="stepper-row">
-              <div class="stepper">
-                <button type="button" id="count-dec" aria-label="人数を減らす">−</button>
-                <input type="text" id="count-input" name="count" value="1" inputmode="numeric" aria-label="参加人数" readonly>
-                <button type="button" id="count-inc" aria-label="人数を増やす">＋</button>
-              </div>
-              <span class="stepper-unit">名（保護者・お子様の合計人数）</span>
-            </div>
-          </div>
-
-          <div class="field">
             <fieldset>
-              <legend class="flabel">お子様の性別</legend>
-              <div class="chip-row">
-                <div class="chip">
-                  <input type="radio" name="gender" id="gender-boy" value="男の子" required>
-                  <label for="gender-boy">男の子</label>
+              <legend class="flabel">お子様の人数（性別ごと）</legend>
+              <div class="gender-counts">
+                <div class="count-group">
+                  <span class="count-label">男の子</span>
+                  <div class="stepper">
+                    <button type="button" id="boy-dec" aria-label="男の子の人数を減らす">−</button>
+                    <input type="text" id="boy-count" value="0" inputmode="numeric" aria-label="男の子の人数" readonly>
+                    <button type="button" id="boy-inc" aria-label="男の子の人数を増やす">＋</button>
+                  </div>
                 </div>
-                <div class="chip">
-                  <input type="radio" name="gender" id="gender-girl" value="女の子" required>
-                  <label for="gender-girl">女の子</label>
+                <div class="count-group">
+                  <span class="count-label">女の子</span>
+                  <div class="stepper">
+                    <button type="button" id="girl-dec" aria-label="女の子の人数を減らす">−</button>
+                    <input type="text" id="girl-count" value="0" inputmode="numeric" aria-label="女の子の人数" readonly>
+                    <button type="button" id="girl-inc" aria-label="女の子の人数を増やす">＋</button>
+                  </div>
                 </div>
               </div>
+              <p class="count-total">お子様の合計 <b id="total-count">0</b> 名</p>
             </fieldset>
           </div>
 
@@ -587,7 +586,7 @@
         してください。</p>
         <div class="recap">
           <div><span class="k">保護者名</span><span class="v" id="ticket-name">—</span></div>
-          <div><span class="k">参加人数</span><span class="v" id="ticket-count">—</span></div>
+          <div><span class="k">お子様の人数</span><span class="v" id="ticket-count">—</span></div>
         </div>
       </div>
 
@@ -599,9 +598,13 @@
 
 <script>
 (function(){
-  var countInput = document.getElementById('count-input');
-  var countDec = document.getElementById('count-dec');
-  var countInc = document.getElementById('count-inc');
+  var boyCount = document.getElementById('boy-count');
+  var boyDec = document.getElementById('boy-dec');
+  var boyInc = document.getElementById('boy-inc');
+  var girlCount = document.getElementById('girl-count');
+  var girlDec = document.getElementById('girl-dec');
+  var girlInc = document.getElementById('girl-inc');
+  var totalCountEl = document.getElementById('total-count');
   var reasonSelect = document.getElementById('reason-select');
   var reasonOtherWrap = document.getElementById('reason-other-wrap');
   var reasonOther = document.getElementById('reason-other');
@@ -614,14 +617,19 @@
   var TO_ADDRESS = 'info@aim-llc.jp';
   var lastMailto = '';
 
-  countDec.addEventListener('click', function(){
-    var v = Math.max(1, (parseInt(countInput.value, 10) || 1) - 1);
-    countInput.value = v;
-  });
-  countInc.addEventListener('click', function(){
-    var v = Math.min(10, (parseInt(countInput.value, 10) || 1) + 1);
-    countInput.value = v;
-  });
+  function updateTotal(){
+    var total = (parseInt(boyCount.value, 10) || 0) + (parseInt(girlCount.value, 10) || 0);
+    totalCountEl.textContent = total;
+  }
+  function stepCount(input, delta){
+    var v = Math.min(10, Math.max(0, (parseInt(input.value, 10) || 0) + delta));
+    input.value = v;
+    updateTotal();
+  }
+  boyDec.addEventListener('click', function(){ stepCount(boyCount, -1); });
+  boyInc.addEventListener('click', function(){ stepCount(boyCount, 1); });
+  girlDec.addEventListener('click', function(){ stepCount(girlCount, -1); });
+  girlInc.addEventListener('click', function(){ stepCount(girlCount, 1); });
 
   reasonSelect.addEventListener('change', function(){
     var isOther = reasonSelect.value === 'その他';
@@ -643,15 +651,24 @@
     clearError();
     if (!form.reportValidity()) return;
 
-    var genderInput = form.querySelector('input[name="gender"]:checked');
+    var boys = parseInt(boyCount.value, 10) || 0;
+    var girls = parseInt(girlCount.value, 10) || 0;
+    var total = boys + girls;
+    if (total < 1){
+      errorBanner.textContent = 'お子様の人数（男の子・女の子いずれか）を1名以上入力してください。';
+      errorBanner.hidden = false;
+      return;
+    }
+
     var reasonVal = reasonSelect.value;
     if (reasonVal === 'その他'){
       reasonVal = (reasonOther.value || '').trim() || 'その他';
     }
 
     var data = {
-      participantCount: parseInt(countInput.value, 10) || 1,
-      gender: genderInput ? genderInput.value : '',
+      boyCount: boys,
+      girlCount: girls,
+      totalCount: total,
       reason: reasonVal,
       guardianName: document.getElementById('guardian-name').value.trim(),
       phone: document.getElementById('phone').value.trim()
@@ -662,8 +679,9 @@
     var bodyLines = [
       '■ JIJI CAFE MARCHÉ ハロウィン参加申込み',
       '',
-      '参加人数：' + data.participantCount + '名',
-      'お子様の性別：' + data.gender,
+      '男の子：' + data.boyCount + '名',
+      '女の子：' + data.girlCount + '名',
+      'お子様の合計：' + data.totalCount + '名',
       '参加のきっかけ：' + data.reason,
       '保護者のお名前：' + data.guardianName,
       '電話番号：' + data.phone,
@@ -676,7 +694,7 @@
 
     document.getElementById('ticket-no').textContent = refCode;
     document.getElementById('ticket-name').textContent = data.guardianName;
-    document.getElementById('ticket-count').textContent = data.participantCount + ' 名';
+    document.getElementById('ticket-count').textContent = data.totalCount + ' 名（男の子' + data.boyCount + '・女の子' + data.girlCount + '）';
     formView.hidden = true;
     successView.hidden = false;
 
